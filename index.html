@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLaze Music PLayer</title>
+    <link rel="icon" href="image/music.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap-5.3.2-dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="bootstrap-5.3.2-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-opacity-10">
+    <br>
+    <div class="container p-3 h2 w-75 text-white d-flex justify-content-center bg-primary bg-gradient rounded-5">
+        BLaze Music PLayer
+    </div>
+
+    <br><br>
+    <div id="mainpart" class="d-flex ms-5 me-5">
+
+        <div id="player" class="w-25 p-5 container rounded-4 bg-danger bg-opacity-50 bg-gradient">
+
+            <div class="image container rounded-4 bg-white bg-gradient p-0">
+                <img src="image/music.png" class="w-100 h-100 rounded-4" id="songImage">
+            </div>
+
+            <br>
+            <div class="container text-white fw-bold" id="songName">&nbsp;</div>
+            <div class="container text-white" id="artistName">&nbsp;</div>
+
+            <div>
+                <audio id="song">
+                </audio>
+            </div>
+
+            <br>
+            <div id="timer" class="container d-flex justify-content-start p-0 m-0 text-white">00:00</div>
+
+            <div>
+                <input id="progress" type="range" value="0" class="bg-gradient">
+            </div>
+
+            <br>
+            <div class="container d-flex justify-content-center">
+                <div class="container" id="backward" onclick="previousSong()">
+                    <i class="fa-solid fa-backward-step fa-xl"></i>
+                </div>
+                <div class="container" id="playpause" onclick="playPause()">
+                    <i class="fa-solid fa-play fa-2xl" id="ctrlIcon"></i>
+                </div>
+                <div class="container" id="forward" onclick="nextSong()">
+                    <i class="fa-solid fa-forward-step fa-xl"></i>
+                </div>
+            </div>
+        </div>
+        <div class="playlist container w-75 p-3 ms-5 rounded-3 bg-black bg-gradient bg-opacity-75 d-flex flex-wrap justify-content-evenly"
+            id="cardContainer">
+        </div>
+    </div>
+    <br><br>
+</body>
+<script>
+    const progress = document.getElementById("progress");
+    const song = document.getElementById("song");
+    const ctrlIcon = document.getElementById("ctrlIcon");
+
+    song.onloadedmetadata = function () {
+        progress.max = song.duration;
+        progress.value = song.currentTime;
+    }
+    if (song.play()) {
+        setInterval(() => {
+            progress.value = song.currentTime;
+        }, 1000);
+    }
+
+    progress.onchange = () => {
+        song.play();
+        song.currentTime = progress.value;
+        ctrlIcon.classList.remove("fa-play");
+        ctrlIcon.classList.add("fa-pause");
+    }
+
+    let update = setInterval(() => {
+        let mins = Math.floor(song.currentTime / 60);
+        let secs = Math.floor(song.currentTime % 60);
+        if (secs < 10) {
+            secs = '0' + String(secs);
+        }
+        timer.innerHTML = ('0' + mins) + ':' + secs;
+    }, 1000);
+
+    const playPause = () => {
+        if (ctrlIcon.classList.contains("fa-pause")) {
+            song.pause();
+            ctrlIcon.classList.remove("fa-pause");
+            ctrlIcon.classList.add("fa-play");
+        }
+        else {
+            song.play();
+            ctrlIcon.classList.remove("fa-play");
+            ctrlIcon.classList.add("fa-pause");
+        }
+    }
+
+    window.addEventListener("keydown", function (event) {
+        if (event.key === " " || event.key === 'MediaPlayPause') {
+            if (song.paused) {
+                song.play();
+                ctrlIcon.classList.remove("fa-play");
+                ctrlIcon.classList.add("fa-pause");
+            }
+            else {
+                song.pause();
+                ctrlIcon.classList.remove("fa-pause");
+                ctrlIcon.classList.add("fa-play");
+            }
+        }
+    });
+
+    let songs = [
+        {
+            name: "Tum Hi Ho",
+            artist: "Arijit Singh",
+            audio_path: "music/Tum Hi Ho.mp3",
+            image_path: "image/Tum hi ho.jpg"
+        },
+        {
+            name: "Khamoshiyan",
+            artist: "Arijit Singh",
+            audio_path: "music/Khamoshiyan.mp3",
+            image_path: "image/Khamoshiyan.jpg"
+        },
+        {
+            name: "Bhaag Milkha Bhaag",
+            artist: "Shankar-Ehsaan-Loy",
+            audio_path: "music/Bhaag Milkha Bhaag.mp3",
+            image_path: "image/Bhaag Milkha Bhaag.jpg"
+        },
+        {
+            name: "Kabhi Alvida Naa Kehna",
+            artist: "Sonu Nigam, Alka Yagnik",
+            audio_path: "music/Kabhi Alvida Naa Kehna.mp3",
+            image_path: "image/Kabhi Alvida Naa Kehna.jpg"
+        },
+        {
+            name: "Khairiyat",
+            artist: "Arijit Singh",
+            audio_path: "music/Khairiyat.mp3",
+            image_path: "image/Khairiyat.jpg"
+        },
+        {
+            name: "Chand Sifarish",
+            artist: "Shaan, Kailash Kher",
+            audio_path: "music/Chand Sifarish.mp3",
+            image_path: "image/Chand Sifarish.jpg"
+        },
+        {
+            name: "O Re Piya",
+            artist: "Rahat Fateh Ali Khan",
+            audio_path: "music/O Re Piya.mp3",
+            image_path: "image/O Re Piya.jpg"
+        },
+        {
+            name: "Shayad",
+            artist: "Arijit Singh",
+            audio_path: "music/Shayad.mp3",
+            image_path: "image/Shayad.jpg"
+        },
+        {
+            name: "Tum Hi Ho",
+            artist: "Arijit Singh",
+            audio_path: "music/Tum Hi Ho.mp3",
+            image_path: "image/Tum hi ho.jpg"
+        },
+        {
+            name: "Khamoshiyan",
+            artist: "Arijit Singh",
+            audio_path: "music/Khamoshiyan.mp3",
+            image_path: "image/Khamoshiyan.jpg"
+        },
+        {
+            name: "Bhaag Milkha Bhaag",
+            artist: "Shankar-Ehsaan-Loy",
+            audio_path: "music/Bhaag Milkha Bhaag.mp3",
+            image_path: "image/Bhaag Milkha Bhaag.jpg"
+        },
+        {
+            name: "Kabhi Alvida Naa Kehna",
+            artist: "Sonu Nigam, Alka Yagnik",
+            audio_path: "music/Kabhi Alvida Naa Kehna.mp3",
+            image_path: "image/Kabhi Alvida Naa Kehna.jpg"
+        },
+        {
+            name: "Khairiyat",
+            artist: "Arijit Singh",
+            audio_path: "music/Khairiyat.mp3",
+            image_path: "image/Khairiyat.jpg"
+        },
+        {
+            name: "Chand Sifarish",
+            artist: "Shaan, Kailash Kher",
+            audio_path: "music/Chand Sifarish.mp3",
+            image_path: "image/Chand Sifarish.jpg"
+        },
+        {
+            name: "O Re Piya",
+            artist: "Rahat Fateh Ali Khan",
+            audio_path: "music/O Re Piya.mp3",
+            image_path: "image/O Re Piya.jpg"
+        },
+        {
+            name: "Shayad",
+            artist: "Arijit Singh",
+            audio_path: "music/Shayad.mp3",
+            image_path: "image/Shayad.jpg"
+        }
+    ];
+
+    const cardContainer = document.getElementById('cardContainer');
+    const songNameElement = document.getElementById('songName');
+    const artistNameElement = document.getElementById('artistName');
+    const songImageElement = document.getElementById('songImage');
+    const audioPlayer = document.getElementById('song');
+    let index;
+
+    function createCards() {
+        songs.forEach(song => {
+            const card = document.createElement('div');
+            card.classList.add('card', 'pb-3', 'm-3', 'bg-white', 'bg-opacity-50', 'container-fluid', 'bg-gradient', 'rounded-3', 'shadow');
+
+            const image = document.createElement('img');
+            image.src = song.image_path;
+            image.classList.add('card-image-top', 'h-75', 'w-100', 'rounded-2', 'mt-2', 'mb-1', 'shadow');
+            card.appendChild(image);
+
+            const name = document.createElement('div');
+            name.classList.add('w-100', 'd-flex', 'justify-content-center', 'p-0', 'mt-2', 'text-white', 'card-text', 'fw-bold');
+            name.innerHTML = song.name;
+            card.appendChild(name);
+            const singer = document.createElement('div');
+            singer.classList.add('w-100', 'd-flex', 'justify-content-center', 'p-0', 'mt-2', 'card-text', 'text-white');
+            singer.innerHTML = song.artist;
+            card.appendChild(singer);
+
+            card.addEventListener('click', () => {
+                songNameElement.textContent = song.name;
+                artistNameElement.textContent = song.artist;
+                songImageElement.src = song.image_path;
+                audioPlayer.src = song.audio_path;
+                audioPlayer.play();
+                index = songs.indexOf(song);
+                console.log(index);
+                ctrlIcon.classList.remove("fa-play");
+                ctrlIcon.classList.add("fa-pause");
+            });
+            card.addEventListener('click', () => {
+                let player = document.getElementById("player");
+                let body = document.body;
+                if (player.classList.contains("bg-danger")) {
+                    player.classList.remove("bg-danger");
+                    player.classList.add('bg-success');
+                    body.classList.remove('bg-danger');
+                    body.classList.add('bg-success');
+                }
+                else if (player.classList.contains("bg-success")) {
+                    player.classList.remove("bg-success");
+                    player.classList.add('bg-primary');
+                    body.classList.remove('bg-success');
+                    body.classList.add('bg-primary');
+                }
+                else if (player.classList.contains("bg-primary")) {
+                    player.classList.remove("bg-primary");
+                    player.classList.add('bg-danger');
+                    body.classList.remove('bg-primary');
+                    body.classList.add('bg-danger');
+                }
+            });
+            cardContainer.appendChild(card);
+        });
+    }
+    createCards();
+
+    const previousSong = () => {
+        if (index == 0) {
+            alert("This is the first song in the playlist.");
+        }
+        else {
+            index = index - 1;
+            songNameElement.textContent = songs[index].name;
+            songImageElement.src = songs[index].image_path;
+            audioPlayer.src = songs[index].audio_path;
+            audioPlayer.play();
+            ctrlIcon.classList.remove("fa-play");
+            ctrlIcon.classList.add("fa-pause");
+        }
+    }
+    const nextSong = () => {
+        if (index == songs.length - 1) {
+            alert("This is the last song in the playlist.")
+        }
+        else {
+            index = index + 1;
+            songNameElement.textContent = songs[index].name;
+            songImageElement.src = songs[index].image_path;
+            audioPlayer.src = songs[index].audio_path;
+            audioPlayer.play();
+            ctrlIcon.classList.remove("fa-play");
+            ctrlIcon.classList.add("fa-pause");
+        }
+    }
+
+    const img = document.querySelector("img");
+    img.ondragstart = () => {
+        return false;
+    };
+
+    window.addEventListener("keydown", function (event) {
+        event.preventDefault();
+    });
+</script>
+
+</html>

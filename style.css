@@ -1,0 +1,80 @@
+* {
+    font-family: poppins;
+}
+
+body {
+    background-color: whitesmoke;
+    transition: background-color 1s ease;
+}
+
+#progress {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background-color: red;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 4px 0;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    border: 6px solid aliceblue;
+    background-color: darkorchid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#mainpart {
+    max-height: 530px;
+}
+
+#player {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    min-width: 347px;
+    transition: background-color 1s ease;
+}
+
+.image {
+    height: 230px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#backward,
+#forward,
+#playpause {
+    cursor: pointer;
+}
+
+.playlist {
+    overflow: scroll;
+    scroll-behavior: smooth;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 280px;
+}
+
+.card {
+    max-width: 210px;
+    justify-content: start;
+    align-items: center;
+    cursor: pointer;
+    font-size: smaller;
+    transition: transform 0.1s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+}
